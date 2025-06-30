@@ -113,7 +113,7 @@ Le champ `keywords` permet d’associer à chaque bien immobilier une série de 
     "investissement locatif"
   ]
 }
-
+```
 ## 📌 Exemple d’Objet Property
 
 ```json
