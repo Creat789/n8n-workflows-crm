@@ -1,0 +1,22 @@
+cat > .gitignore <<EOF
+# Environnements
+.env
+*.env.local
+
+# Logs
+*.log
+
+# n8n runtime
+.n8n
+
+# OS stuff
+.DS_Store
+
+# Node
+node_modules/
+
+# Secrets
+secrets.json
+credentials.json
+EOF
+
