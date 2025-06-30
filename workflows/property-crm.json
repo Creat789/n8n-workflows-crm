@@ -1,438 +1,255 @@
-openapi: 3.0.3
-info:
-  title: Real Estate CRM API
-  version: 1.0.0
-  description: |
-    This OpenAPI (Swagger) definition describes the unified “Property” schema  
-    used in a multi‑tenant SaaS real‑estate CRM. Each agency has its own data,  
-    and every property is linked to a collaborator.  
-
-paths:
-  /properties:
-    get:
-      summary: List properties
-      responses:
-        '200':
-          description: A list of properties
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Property'
-    post:
-      summary: Create a new property
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Property'
-      responses:
-        '201':
-          description: Created
-
-components:
-  schemas:
-    Property:
-      type: object
-      required:
-        - id
-        - agencyId
-        - transactionType
-        - type
-        - status
-        - publishedAt
-        - price
-        - address
-        - createdAt
-        - updatedAt
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier
-        agencyId:
-          type: string
-          description: Tenant / agency identifier
-        transactionType:
-          type: string
-          description: >
-            Sale/rental modality.  
-            e.g.: sale, rental, lease, lease_to_own, vefa, viager, sale_with_tenant, sale_on_margin, sale_share, exchange
-        type:
-          type: string
-          description: Property type: apartment, house, land, parking, commercial, etc.
-        status:
-          type: string
-          description: e.g. available, sold, rented
-        publishedAt:
-          type: string
-          format: date-time
-          description: Publication date (ISO 8601)
-        price:
-          $ref: '#/components/schemas/Price'
-        address:
-          $ref: '#/components/schemas/Address'
-        area:
-          $ref: '#/components/schemas/Area'
-        agencyInfo:
-          $ref: '#/components/schemas/AgencyInfo'
-        assignedCollaborator:
-          $ref: '#/components/schemas/Collaborator'
-        bedrooms:
-          type: integer
-          nullable: true
-        bathrooms:
-          type: integer
-          nullable: true
-        separateToilets:
-          type: boolean
-          nullable: true
-        floor:
-          type: integer
-          nullable: true
-        totalFloors:
-          type: integer
-          nullable: true
-        elevator:
-          type: boolean
-          nullable: true
-        balcony:
-          type: boolean
-          nullable: true
-        terrace:
-          type: boolean
-          nullable: true
-        parkingIncluded:
-          type: boolean
-          nullable: true
-        garage:
-          type: boolean
-          nullable: true
-        levels:
-          type: integer
-          nullable: true
-          description: Number of levels (houses)
-        heating:
-          $ref: '#/components/schemas/Heating'
-        fireplace:
-          type: boolean
-          nullable: true
-        pool:
-          $ref: '#/components/schemas/Pool'
-        gardenArea:
-          type: number
-          format: float
-          nullable: true
-          description: Garden area in m²
-        landDevelopment:
-          $ref: '#/components/schemas/LandDevelopment'
-        parkingType:
-          type: string
-          nullable: true
-        dimensions:
-          $ref: '#/components/schemas/Dimensions'
-        accessibilityForDisabled:
-          type: boolean
-          nullable: true
-        lease:
-          $ref: '#/components/schemas/Lease'
-        intendedUse:
-          type: string
-          nullable: true
-        vefa:
-          $ref: '#/components/schemas/VEFA'
-        viager:
-          $ref: '#/components/schemas/Viager'
-        coOwnership:
-          $ref: '#/components/schemas/CoOwnership'
-        diagnostics:
-          $ref: '#/components/schemas/Diagnostics'
-        title:
-          type: string
-        shortDescription:
-          type: string
-        longDescription:
-          type: string
-        photos:
-          type: array
-          items:
-            type: string
-            format: uri
-        documents:
-          type: array
-          items:
-            $ref: '#/components/schemas/Document'
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-        statistics:
-          $ref: '#/components/schemas/Statistics'
-
-    Price:
-      type: object
-      required:
-        - amount
-        - currency
-      properties:
-        amount:
-          type: number
-          format: float
-        currency:
-          type: string
-          description: ISO currency code
-
-    Address:
-      type: object
-      required:
-        - street
-        - postalCode
-        - city
-        - country
-      properties:
-        street:
-          type: string
-        postalCode:
-          type: string
-        city:
-          type: string
-        country:
-          type: string
-        latitude:
-          type: number
-          format: float
-        longitude:
-          type: number
-          format: float
-
-    Area:
-      type: object
-      properties:
-        builtArea:
-          type: number
-          format: float
-          description: m² (Carrez law for apartments)
-        livingArea:
-          type: number
-          format: float
-        landArea:
-          type: number
-          format: float
-
-    AgencyInfo:
-      type: object
-      properties:
-        name:
-          type: string
-        contact:
-          type: object
-          properties:
-            phone:
-              type: string
-            email:
-              type: string
-
-    Collaborator:
-      type: object
-      required:
-        - collaboratorId
-      properties:
-        collaboratorId:
-          type: string
-        name:
-          type: string
-        phone:
-          type: string
-        email:
-          type: string
-
-    Heating:
-      type: object
-      properties:
-        type:
-          type: string
-        installationDate:
-          type: string
-          format: date-time
-
-    Pool:
-      type: object
-      properties:
-        exists:
-          type: boolean
-        type:
-          type: string
-
-    LandDevelopment:
-      type: object
-      properties:
-        isBuildable:
-          type: boolean
-        urbanCertificate:
-          type: string
-        zoning:
-          type: string
-        utilities:
-          type: object
-          properties:
-            water:
-              type: boolean
-            sewer:
-              type: boolean
-            electricity:
-              type: boolean
-            telecom:
-              type: boolean
-
-    Dimensions:
-      type: object
-      properties:
-        length:
-          type: number
-          format: float
-        width:
-          type: number
-          format: float
-        height:
-          type: number
-          format: float
-
-    Lease:
-      type: object
-      properties:
-        type:
-          type: string
-        startDate:
-          type: string
-          format: date-time
-        durationYears:
-          type: integer
-        rent:
-          type: object
-          properties:
-            amount:
-              type: number
-              format: float
-            currency:
-              type: string
-            maintenanceFees:
-              type: number
-              format: float
-
-    VEFA:
-      type: object
-      properties:
-        developer:
-          type: string
-        expectedDelivery:
-          type: string
-          format: date-time
-        paymentPlan:
-          type: array
-          items:
-            type: object
-            properties:
-              milestone:
-                type: string
-              percentage:
-                type: number
-                format: float
-        completionGuarantee:
-          type: object
-          properties:
-            insurer:
-              type: string
-            expiryDate:
-              type: string
-              format: date-time
-
-    Viager:
-      type: object
-      properties:
-        usufructOwner:
-          type: string
-        bareOwner:
-          type: string
-        bouquet:
-          type: object
-          properties:
-            amount:
-              type: number
-              format: float
-            currency:
-              type: string
-        rente:
-          type: object
-          properties:
-            amount:
-              type: number
-              format: float
-            currency:
-              type: string
-            frequency:
-              type: string
-              description: monthly, quarterly, etc.
-
-    CoOwnership:
-      type: object
-      properties:
-        totalUnits:
-          type: integer
-        annualFees:
-          type: number
-          format: float
-        propertyManager:
-          type: object
-          properties:
-            name:
-              type: string
-            contact:
-              type: string
-
-    Diagnostics:
-      type: object
-      properties:
-        energyPerformance:
-          type: object
-          properties:
-            rating:
-              type: string
-            consumption:
-              type: number
-              format: float
-        greenhouseEmissions:
-          type: object
-          properties:
-            rating:
-              type: string
-            emissions:
-              type: number
-              format: float
-        asbestos:
-          type: string
-        lead:
-          type: string
-        floodRisk:
-          type: string
-
-    Document:
-      type: object
-      properties:
-        type:
-          type: string
-        url:
-          type: string
-          format: uri
-
-    Statistics:
-      type: object
-      properties:
-        views:
-          type: integer
-        inquiries:
-          type: integer
-
+{
+  "Property": {
+    "type": "object",
+    "required": [
+      "id",
+      "agencyId",
+      "transactionType",
+      "type",
+      "status",
+      "publishedAt",
+      "price",
+      "address",
+      "createdAt",
+      "updatedAt"
+    ],
+    "properties": {
+      "id": { "type": "string", "format": "uuid" },
+      "agencyId": { "type": "string" },
+      "transactionType": { "type": "string" },
+      "type": { "type": "string" },
+      "status": { "type": "string" },
+      "publishedAt": { "type": "string", "format": "date-time" },
+      "price": {
+        "type": "object",
+        "required": ["amount", "currency"],
+        "properties": {
+          "amount": { "type": "number", "format": "float" },
+          "currency": { "type": "string" }
+        }
+      },
+      "address": {
+        "type": "object",
+        "required": ["street", "postalCode", "city", "country"],
+        "properties": {
+          "street": { "type": "string" },
+          "postalCode": { "type": "string" },
+          "city": { "type": "string" },
+          "country": { "type": "string" },
+          "latitude": { "type": "number", "format": "float" },
+          "longitude": { "type": "number", "format": "float" }
+        }
+      },
+      "area": {
+        "type": "object",
+        "properties": {
+          "builtArea": { "type": "number", "format": "float" },
+          "livingArea": { "type": "number", "format": "float" },
+          "landArea": { "type": "number", "format": "float" }
+        }
+      },
+      "agencyInfo": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "contact": {
+            "type": "object",
+            "properties": {
+              "phone": { "type": "string" },
+              "email": { "type": "string" }
+            }
+          }
+        }
+      },
+      "assignedCollaborator": {
+        "type": "object",
+        "required": ["collaboratorId"],
+        "properties": {
+          "collaboratorId": { "type": "string" },
+          "name": { "type": "string" },
+          "phone": { "type": "string" },
+          "email": { "type": "string" }
+        }
+      },
+      "bedrooms": { "type": "integer", "nullable": true },
+      "bathrooms": { "type": "integer", "nullable": true },
+      "separateToilets": { "type": "boolean", "nullable": true },
+      "floor": { "type": "integer", "nullable": true },
+      "totalFloors": { "type": "integer", "nullable": true },
+      "elevator": { "type": "boolean", "nullable": true },
+      "balcony": { "type": "boolean", "nullable": true },
+      "terrace": { "type": "boolean", "nullable": true },
+      "parkingIncluded": { "type": "boolean", "nullable": true },
+      "garage": { "type": "boolean", "nullable": true },
+      "levels": { "type": "integer", "nullable": true },
+      "heating": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string" },
+          "installationDate": { "type": "string", "format": "date-time" }
+        }
+      },
+      "fireplace": { "type": "boolean", "nullable": true },
+      "pool": {
+        "type": "object",
+        "properties": {
+          "exists": { "type": "boolean" },
+          "type": { "type": "string" }
+        }
+      },
+      "gardenArea": { "type": "number", "format": "float", "nullable": true },
+      "landDevelopment": {
+        "type": "object",
+        "properties": {
+          "isBuildable": { "type": "boolean" },
+          "urbanCertificate": { "type": "string" },
+          "zoning": { "type": "string" },
+          "utilities": {
+            "type": "object",
+            "properties": {
+              "water": { "type": "boolean" },
+              "sewer": { "type": "boolean" },
+              "electricity": { "type": "boolean" },
+              "telecom": { "type": "boolean" }
+            }
+          }
+        }
+      },
+      "parkingType": { "type": "string", "nullable": true },
+      "dimensions": {
+        "type": "object",
+        "properties": {
+          "length": { "type": "number", "format": "float" },
+          "width": { "type": "number", "format": "float" },
+          "height": { "type": "number", "format": "float" }
+        }
+      },
+      "accessibilityForDisabled": { "type": "boolean", "nullable": true },
+      "lease": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string" },
+          "startDate": { "type": "string", "format": "date-time" },
+          "durationYears": { "type": "integer" },
+          "rent": {
+            "type": "object",
+            "properties": {
+              "amount": { "type": "number", "format": "float" },
+              "currency": { "type": "string" },
+              "maintenanceFees": { "type": "number", "format": "float" }
+            }
+          }
+        }
+      },
+      "intendedUse": { "type": "string", "nullable": true },
+      "vefa": {
+        "type": "object",
+        "properties": {
+          "developer": { "type": "string" },
+          "expectedDelivery": { "type": "string", "format": "date-time" },
+          "paymentPlan": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "milestone": { "type": "string" },
+                "percentage": { "type": "number", "format": "float" }
+              }
+            }
+          },
+          "completionGuarantee": {
+            "type": "object",
+            "properties": {
+              "insurer": { "type": "string" },
+              "expiryDate": { "type": "string", "format": "date-time" }
+            }
+          }
+        }
+      },
+      "viager": {
+        "type": "object",
+        "properties": {
+          "usufructOwner": { "type": "string" },
+          "bareOwner": { "type": "string" },
+          "bouquet": {
+            "type": "object",
+            "properties": {
+              "amount": { "type": "number", "format": "float" },
+              "currency": { "type": "string" }
+            }
+          },
+          "rente": {
+            "type": "object",
+            "properties": {
+              "amount": { "type": "number", "format": "float" },
+              "currency": { "type": "string" },
+              "frequency": { "type": "string" }
+            }
+          }
+        }
+      },
+      "coOwnership": {
+        "type": "object",
+        "properties": {
+          "totalUnits": { "type": "integer" },
+          "annualFees": { "type": "number", "format": "float" },
+          "propertyManager": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "contact": { "type": "string" }
+            }
+          }
+        }
+      },
+      "diagnostics": {
+        "type": "object",
+        "properties": {
+          "energyPerformance": {
+            "type": "object",
+            "properties": {
+              "rating": { "type": "string" },
+              "consumption": { "type": "number", "format": "float" }
+            }
+          },
+          "greenhouseEmissions": {
+            "type": "object",
+            "properties": {
+              "rating": { "type": "string" },
+              "emissions": { "type": "number", "format": "float" }
+            }
+          },
+          "asbestos": { "type": "string" },
+          "lead": { "type": "string" },
+          "floodRisk": { "type": "string" }
+        }
+      },
+      "title": { "type": "string" },
+      "shortDescription": { "type": "string" },
+      "longDescription": { "type": "string" },
+      "photos": {
+        "type": "array",
+        "items": { "type": "string", "format": "uri" }
+      },
+      "documents": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "type": { "type": "string" },
+            "url": { "type": "string", "format": "uri" }
+          }
+        }
+      },
+      "createdAt": { "type": "string", "format": "date-time" },
+      "updatedAt": { "type": "string", "format": "date-time" },
+      "statistics": {
+        "type": "object",
+        "properties": {
+          "views": { "type": "integer" },
+          "inquiries": { "type": "integer" }
+        }
+      }
+    }
+  }
+}
