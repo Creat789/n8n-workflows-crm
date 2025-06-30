@@ -228,3 +228,41 @@ Ce document décrit le schéma JSON d'un objet **Property** représentant une pr
     "lastRevisionDate": "string (date, optionnel)"
   }
 }
+```
+
+| Champ                | Type                    | Description                                                                                  |
+|----------------------|-------------------------|----------------------------------------------------------------------------------------------|
+| `id`                 | string (UUID)           | Identifiant unique de la propriété.                                                         |
+| `agencyId`           | string                  | Identifiant de l'agence immobilière.                                                        |
+| `transactionType`    | string                  | Type de transaction (ex : vente, location).                                                 |
+| `type`               | string                  | Type de bien (ex : appartement, maison).                                                    |
+| `status`             | string                  | Statut du bien (ex : disponible, vendu).                                                    |
+| `publishedAt`        | string (date-time)      | Date de publication de l'annonce.                                                           |
+| `price`              | object                  | Prix du bien avec montant (`amount`) et devise (`currency`).                                |
+| `address`            | object                  | Adresse complète : rue, code postal, ville, pays, latitude, longitude.                      |
+| `bedrooms`           | integer (nullable)      | Nombre de chambres.                                                                          |
+| `bathrooms`          | integer (nullable)      | Nombre de salles de bain.                                                                    |
+| `separateToilets`    | boolean (nullable)      | Présence de toilettes séparées.                                                             |
+| `floor`              | integer (nullable)      | Numéro de l'étage.                                                                           |
+| `totalFloors`        | integer (nullable)      | Nombre total d'étages dans l'immeuble.                                                      |
+| `elevator`           | boolean (nullable)      | Présence d'un ascenseur.                                                                     |
+| `balcony`            | boolean (nullable)      | Présence d'un balcon.                                                                        |
+| `terrace`            | boolean (nullable)      | Présence d'une terrasse.                                                                     |
+| `parkingIncluded`    | boolean (nullable)      | Parking inclus dans le bien.                                                                 |
+| `garage`             | boolean (nullable)      | Présence d'un garage.                                                                        |
+| `heating`            | object                  | Informations sur le chauffage : type et date d'installation.                                |
+| `pool`               | object                  | Présence et type de piscine.                                                                |
+| `gardenArea`         | number (float, nullable)| Surface du jardin en m².                                                                     |
+| `landDevelopment`    | object                  | Infos sur constructibilité, certificat urbain, zonage, utilités.                            |
+| `lease`              | object                  | Détails sur le bail : type, date de début, durée, loyer, charges.                           |
+| `vefa`               | object                  | Vente en l'état futur d'achèvement : promoteur, livraison prévue, plan de paiement.         |
+| `viager`             | object                  | Infos viager : usufruitier, nu-propriétaire, bouquet, rente.                                |
+| `coOwnership`        | object                  | Copropriété : nombre d'unités, charges annuelles, syndic, diagnostics parties communes.     |
+| `diagnostics`        | object                  | Diagnostics énergétiques et risques (amiante, plomb, risque inondation, etc.).              |
+| `title`              | string                  | Titre de l'annonce.                                                                          |
+| `shortDescription`   | string                  | Description courte.                                                                          |
+| `longDescription`    | string                  | Description longue.                                                                          |
+| `keywords`           | array[string]           | Mots-clés générés automatiquement par l'IA (ex: "vue mer", "accès handicapé").             |
+| `photos`             | array[string (uri)]     | Liste d'URLs des photos.                                                                     |
+| `documents`          | array[object]           | Documents associés avec type et URL.                                                        |
+| `technicalDocuments` | object                  | Documents techniques, diagnostics, certificats de conformité, dates de révision.           |
