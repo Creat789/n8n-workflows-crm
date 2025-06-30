@@ -1,0 +1,264 @@
+{
+  "Property": {
+    "id": {
+      "value": null,
+      "meta": {
+        "type": ["string"],
+        "priority": 1,
+        "context": ["oral", "form"],
+        "oralSummary": "The unique identifier of the property is {value}.",
+        "filled": false
+      }
+    },
+    "transactionType": {
+      "value": null,
+      "meta": {
+        "type": ["string"],
+        "priority": 1,
+        "context": ["oral", "form"],
+        "oralSummary": "This is a {value} transaction.",
+        "filled": false
+      }
+    },
+    "type": {
+      "value": null,
+      "meta": {
+        "type": ["string"],
+        "priority": 1,
+        "context": ["oral", "form"],
+        "oralSummary": "The property is a {value}.",
+        "filled": false
+      }
+    },
+    "status": {
+      "value": null,
+      "meta": {
+        "type": ["string"],
+        "priority": 2,
+        "context": ["oral", "form"],
+        "oralSummary": "The current status is {value}.",
+        "filled": false
+      }
+    },
+    "price": {
+      "amount": {
+        "value": null,
+        "meta": {
+          "type": ["number", "null"],
+          "priority": 1,
+          "context": ["oral", "form"],
+          "oralSummary": "The price is {value} euros.",
+          "filled": false
+        }
+      },
+      "currency": {
+        "value": "EUR",
+        "meta": {
+          "type": ["string"],
+          "priority": 1,
+          "context": ["oral", "form"],
+          "oralSummary": "The currency is {value}.",
+          "filled": true
+        }
+      }
+    },
+    "address": {
+      "street": {
+        "value": null,
+        "meta": {
+          "type": ["string", "null"],
+          "priority": 1,
+          "context": ["oral", "form"],
+          "oralSummary": "The property is located at {value}.",
+          "filled": false
+        }
+      },
+      "postalCode": {
+        "value": null,
+        "meta": {
+          "type": ["string", "null"],
+          "priority": 1,
+          "context": ["oral", "form"],
+          "oralSummary": "The postal code is {value}.",
+          "filled": false
+        }
+      },
+      "city": {
+        "value": null,
+        "meta": {
+          "type": ["string", "null"],
+          "priority": 1,
+          "context": ["oral", "form"],
+          "oralSummary": "The city is {value}.",
+          "filled": false
+        }
+      },
+      "country": {
+        "value": null,
+        "meta": {
+          "type": ["string", "null"],
+          "priority": 2,
+          "context": ["oral", "form"],
+          "oralSummary": "The country is {value}.",
+          "filled": false
+        }
+      }
+    },
+    "area": {
+      "livingArea": {
+        "value": null,
+        "meta": {
+          "type": ["number", "null"],
+          "priority": 1,
+          "context": ["oral", "form"],
+          "oralSummary": "The living area is {value} square meters.",
+          "filled": false
+        }
+      }
+    },
+    "bedrooms": {
+      "value": null,
+      "meta": {
+        "type": ["integer", "null"],
+        "priority": 2,
+        "context": ["oral", "form"],
+        "oralSummary": "The property has {value} bedrooms.",
+        "filled": false
+      }
+    },
+    "bathrooms": {
+      "value": null,
+      "meta": {
+        "type": ["integer", "null"],
+        "priority": 2,
+        "context": ["oral", "form"],
+        "oralSummary": "The property has {value} bathrooms.",
+        "filled": false
+      }
+    },
+    "floor": {
+      "value": null,
+      "meta": {
+        "type": ["integer", "null"],
+        "priority": 3,
+        "context": ["oral", "form"],
+        "oralSummary": "The property is located on the {value} floor.",
+        "filled": false
+      }
+    },
+    "totalFloors": {
+      "value": null,
+      "meta": {
+        "type": ["integer", "null"],
+        "priority": 3,
+        "context": ["oral", "form"],
+        "oralSummary": "The building has {value} floors in total.",
+        "filled": false
+      }
+    },
+    "balcony": {
+      "value": null,
+      "meta": {
+        "type": ["boolean", "null"],
+        "priority": 3,
+        "context": ["oral", "form"],
+        "oralSummary": "The property has a balcony.",
+        "filled": false
+      }
+    },
+    "terrace": {
+      "value": null,
+      "meta": {
+        "type": ["boolean", "null"],
+        "priority": 3,
+        "context": ["oral", "form"],
+        "oralSummary": "The property has a terrace.",
+        "filled": false
+      }
+    },
+    "parkingIncluded": {
+      "value": null,
+      "meta": {
+        "type": ["boolean", "null"],
+        "priority": 3,
+        "context": ["oral", "form"],
+        "oralSummary": "The property includes parking.",
+        "filled": false
+      }
+    },
+    "garage": {
+      "value": null,
+      "meta": {
+        "type": ["boolean", "null"],
+        "priority": 3,
+        "context": ["oral", "form"],
+        "oralSummary": "The property has a garage.",
+        "filled": false
+      }
+    },
+    "heating": {
+      "type": {
+        "value": null,
+        "meta": {
+          "type": ["string", "null"],
+          "priority": 3,
+          "context": ["oral", "form"],
+          "oralSummary": "The heating type is {value}.",
+          "filled": false
+        }
+      }
+    },
+    "pool": {
+      "exists": {
+        "value": null,
+        "meta": {
+          "type": ["boolean", "null"],
+          "priority": 3,
+          "context": ["oral", "form"],
+          "oralSummary": "The property has a swimming pool.",
+          "filled": false
+        }
+      }
+    },
+    "title": {
+      "value": null,
+      "meta": {
+        "type": ["string"],
+        "priority": 1,
+        "context": ["oral", "form"],
+        "oralSummary": "The listing title is: {value}.",
+        "filled": false
+      }
+    },
+    "shortDescription": {
+      "value": null,
+      "meta": {
+        "type": ["string", "null"],
+        "priority": 2,
+        "context": ["oral", "form"],
+        "oralSummary": "Short description: {value}.",
+        "filled": false
+      }
+    },
+    "keywords": {
+      "value": [],
+      "meta": {
+        "type": ["array"],
+        "priority": 3,
+        "context": ["oral", "form"],
+        "oralSummary": "Associated keywords: {value}.",
+        "filled": false
+      }
+    },
+    "constructionYear": {
+      "value": null,
+      "meta": {
+        "type": ["integer", "null"],
+        "priority": 2,
+        "context": ["oral", "form"],
+        "oralSummary": "The building was constructed in {value}.",
+        "filled": false
+      }
+    }
+  }
+}
