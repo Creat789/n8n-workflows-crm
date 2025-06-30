@@ -32,6 +32,8 @@ Ce modèle unifié permet de :
 - **Isoler les données par locataire** (`agencyId`)  
 - **Assigner un collaborateur** (`assignedCollaborator`)  
 - **Gérer tous les types de transaction** (`transactionType`)  
+- **Suivre les statuts avancés** (`status`, `publication`, `offers`)  
+- **Étiqueter dynamiquement les biens** (`tags`)  
 - **Champs optionnels** pour les détails spécifiques  
 
 ---
@@ -40,6 +42,10 @@ Ce modèle unifié permet de :
 
 - **`transactionType`** : sale, rental, lease, lease_to_own, vefa, viager, sale_with_tenant, sale_on_margin, sale_share, exchange  
 - **`type`** : apartment, house, land, parking, commercial, vefa, etc.  
+- **`status`** : available, under_offer, under_contract, sold, rented, withdrawn  
+- **`publication`** : `{ channel, publishedAt, expiresAt, featured }`  
+- **`offers`** : suivi des offres reçues et des conditions  
+- **`tags`** : étiquettes personnalisées définies par l’agence  
 - **`assignedCollaborator`** : lie chaque bien à un collaborateur interne  
 - **Blocs optionnels** :  
   - Maison : `levels`, `heating`, `pool`, `gardenArea`  
@@ -64,8 +70,10 @@ Ce modèle unifié permet de :
 | `agencyId`              | string     | Oui         | Identifiant de l’agence (locataire)                     |
 | `transactionType`       | string     | Oui         | Modalité de transaction (voir ci‑dessus)                |
 | `type`                  | string     | Oui         | Catégorie de bien                                       |
-| `status`                | string     | Oui         | ex. available, sold, rented                             |
-| `publishedAt`           | date‑time  | Oui         | Date de publication (ISO 8601)                          |
+| `status`                | string     | Oui         | Statut de publication (ex. available, under_offer...)   |
+| `publication`           | object     | Non         | `{ channel, publishedAt, expiresAt, featured }`         |
+| `tags`                  | array      | Non         | Liste d’étiquettes libres (ex. “mandat exclusif”)       |
+| `offers`                | array      | Non         | Offres reçues sur le bien, avec conditions éventuelles  |
 | `price`                 | object     | Oui         | `{ amount, currency }`                                  |
 | `address`               | object     | Oui         | `{ street, postalCode, city, country, latitude, lng }`  |
 | `assignedCollaborator`  | object     | Oui         | `{ collaboratorId, name, phone, email }`                |
@@ -96,8 +104,23 @@ Ce modèle unifié permet de :
   "agencyId": "agency_123",
   "transactionType": "sale",
   "type": "apartment",
-  "status": "available",
-  "publishedAt": "2025-06-01T10:30:00Z",
+  "status": "under_offer",
+  "publication": {
+    "channel": "SeLoger",
+    "publishedAt": "2025-06-01T10:30:00Z",
+    "expiresAt": "2025-08-01T00:00:00Z",
+    "featured": true
+  },
+  "tags": ["mandat exclusif", "coup de cœur"],
+  "offers": [
+    {
+      "amount": 340000,
+      "buyer": "buyer_789",
+      "submittedAt": "2025-06-15T12:00:00Z",
+      "status": "pending",
+      "conditions": ["sous réserve de financement"]
+    }
+  ],
   "price": { "amount": 350000, "currency": "EUR" },
   "address": {
     "street": "12 Rue de la Liberté",
@@ -146,4 +169,3 @@ Ce modèle unifié permet de :
   "updatedAt": "2025-06-01T10:30:00Z",
   "statistics": { "views": 150, "inquiries": 7 }
 }
-
