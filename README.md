@@ -96,6 +96,24 @@ Ce modèle unifié permet de :
 
 ---
 
+### 🔑 Keywords
+
+Le champ `keywords` permet d’associer à chaque bien immobilier une série de mots-clés générés automatiquement par l’IA à partir de l’analyse audio ou textuelle de l’annonce. Ces mots-clés servent à enrichir le référencement, faciliter la recherche et mettre en avant des caractéristiques spécifiques.
+
+**Exemples de mots-clés :**
+
+```json
+{
+  "keywords": [
+    "vue mer",
+    "terrasse",
+    "accès handicapé",
+    "proche école",
+    "calme",
+    "investissement locatif"
+  ]
+}
+
 ## 📌 Exemple d’Objet Property
 
 ```json
@@ -167,5 +185,12 @@ Ce modèle unifié permet de :
   ],
   "createdAt": "2025-05-20T09:00:00Z",
   "updatedAt": "2025-06-01T10:30:00Z",
-  "statistics": { "views": 150, "inquiries": 7 }
+  "statistics": { "views": 150, "inquiries": 7 },
+  "keywords": [
+    "vue dégagée",
+    "ascenseur",
+    "proche transports",
+    "lumineux"
+  ]
 }
+
