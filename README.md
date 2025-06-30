@@ -1,196 +1,166 @@
-# CRM Immobilier — Schéma de Propriété
+# Property CRM JSON Schema
 
-Ce dépôt contient la définition **OpenAPI (Swagger)** et la documentation associée pour le schéma unifié **Property** utilisé dans un CRM immobilier SaaS multi‑locataire. Chaque agence (locataire) dispose de ses propres données, et chaque bien est relié à un collaborateur.
-
----
-
-## 📗 Table des Matières
-
-1. [Présentation](#présentation)  
-2. [Points Clés du Schéma](#points-clés-du-schéma)  
-3. [Composants & Champs](#composants--champs)  
-4. [Exemple d’Objet Property](#exemple-dobjet-property)  
-5. [Intégration](#intégration)  
-6. [Validation & Outils](#validation--outils)  
-7. [Contribuer](#contribuer)  
-8. [Licence](#licence)  
+Ce dépôt contient la définition complète du **JSON Schema** pour la gestion d’un bien immobilier dans un CRM, couvrant toutes ses caractéristiques, diagnostics, aspects juridiques, financiers ainsi que les descriptions multimédia.
 
 ---
 
-## 🔍 Présentation
+## Description
 
-Notre CRM doit gérer un seul schéma, flexible, pour représenter tous les types de biens :
-
-- **Résidentiel** : appartements, maisons, villas  
-- **Terrain** : constructible, agricole  
-- **Parking** : intérieur, extérieur, box  
-- **Commercial** : bureaux, commerce, entrepôts  
-- **Ventes spécifiques** : VEFA, viager, location‑accession, échange, etc.
-
-Ce modèle unifié permet de :
-
-- **Isoler les données par locataire** (`agencyId`)  
-- **Assigner un collaborateur** (`assignedCollaborator`)  
-- **Gérer tous les types de transaction** (`transactionType`)  
-- **Suivre les statuts avancés** (`status`, `publication`, `offers`)  
-- **Étiqueter dynamiquement les biens** (`tags`)  
-- **Champs optionnels** pour les détails spécifiques  
+Le fichier `property-crm.json` modélise un objet `Property` très détaillé, permettant de représenter un bien immobilier dans toute sa complexité :  
+de ses caractéristiques physiques, à ses aspects administratifs, financiers, diagnostics techniques et documents associés.
 
 ---
 
-## ✨ Points Clés du Schéma
+## Structure détaillée
 
-- **`transactionType`** : sale, rental, lease, lease_to_own, vefa, viager, sale_with_tenant, sale_on_margin, sale_share, exchange  
-- **`type`** : apartment, house, land, parking, commercial, vefa, etc.  
-- **`status`** : available, under_offer, under_contract, sold, rented, withdrawn  
-- **`publication`** : `{ channel, publishedAt, expiresAt, featured }`  
-- **`offers`** : suivi des offres reçues et des conditions  
-- **`tags`** : étiquettes personnalisées définies par l’agence  
-- **`assignedCollaborator`** : lie chaque bien à un collaborateur interne  
-- **Blocs optionnels** :  
-  - Maison : `levels`, `heating`, `pool`, `gardenArea`  
-  - Terrain : `landDevelopment` (zonage, utilities)  
-  - Parking : `dimensions`, `accessibilityForDisabled`  
-  - Local commercial : `lease`, `intendedUse`  
-  - VEFA : `vefa` (paymentPlan, completionGuarantee)  
-  - Viager : `viager` (bouquet, rente)  
-- **Copropriété** : `coOwnership`  
-- **Diagnostics** : energyPerformance, greenhouseEmissions, asbestos, floodRisk  
-- **Médias & docs** : `photos`, `documents`  
+### 1. Identifiants & Métadonnées
+
+- **id** (string, UUID) : Identifiant unique du bien.
+- **agencyId** (string) : Identifiant de l’agence.
+- **transactionType** (string) : Type de transaction (ex : vente, location).
+- **type** (string) : Type de bien (ex : appartement, maison, terrain).
+- **status** (string) : Statut (ex : disponible, vendu).
+- **publishedAt** (date-time) : Date de publication.
+- **createdAt**, **updatedAt** (date-time) : Dates de création et modification.
+
+### 2. Prix
+
+- **price** (objet) :  
+  - **amount** (number) : Montant.  
+  - **currency** (string) : Devise (ex : EUR).
+
+### 3. Adresse
+
+- **address** (objet) :  
+  - **street** (string) : Adresse.  
+  - **postalCode** (string) : Code postal.  
+  - **city** (string) : Ville.  
+  - **country** (string) : Pays.  
+  - **latitude** (number) : Latitude GPS.  
+  - **longitude** (number) : Longitude GPS.
+
+### 4. Surface & Dimensions
+
+- **area** (objet) :  
+  - **builtArea** (number) : Surface construite (m²).  
+  - **livingArea** (number) : Surface habitable (m²).  
+  - **landArea** (number) : Surface terrain (m²).  
+- **dimensions** (objet) :  
+  - **length** (number) : Longueur (m).  
+  - **width** (number) : Largeur (m).  
+  - **height** (number) : Hauteur (m).
+
+### 5. Informations Agence & Collaborateur
+
+- **agencyInfo** (objet) :  
+  - **name** (string) : Nom de l’agence.  
+  - **phone** (string) : Téléphone.  
+  - **email** (string) : Email.  
+- **assignedCollaborator** (objet) :  
+  - **id** (string) : ID collaborateur.  
+  - **name** (string) : Nom.  
+  - **phone** (string) : Téléphone.  
+  - **email** (string) : Email.
+
+### 6. Caractéristiques du Bien
+
+- **bedrooms** (integer) : Nombre de chambres.  
+- **bathrooms** (integer) : Nombre de salles de bain.  
+- **hasElevator** (boolean) : Présence d’ascenseur.  
+- **hasBalcony** (boolean) : Présence d’un balcon.  
+- **hasTerrace** (boolean) : Présence d’une terrasse.  
+- **parkingSpaces** (integer) : Nombre de places de parking.  
+- **garageSpaces** (integer) : Nombre de garages.  
+- **heating** (objet) :  
+  - **type** (string) : Type de chauffage (ex : électrique, gaz).  
+  - **installationDate** (date) : Date d’installation.  
+- **pool** (objet) :  
+  - **hasPool** (boolean) : Présence piscine.  
+  - **poolType** (string) : Type (ex : creusée, hors-sol).  
+- **gardenArea** (number) : Surface jardin (m²).  
+- **landDevelopment** (objet) :  
+  - **buildable** (boolean) : Terrain constructible.  
+  - **urbanEquipments** (array) : Liste des équipements urbains présents.
+
+### 7. Location & Usage
+
+- **lease** (objet) :  
+  - **type** (string) : Type de bail (ex : location vide, meublée).  
+  - **startDate** (date) : Date début bail.  
+  - **durationMonths** (integer) : Durée en mois.  
+  - **rentAmount** (number) : Loyer mensuel.  
+  - **chargesAmount** (number) : Charges mensuelles.  
+- **intendedUse** (string) : Usage prévu (habitation, commercial, mixte).
+
+### 8. Aspects Juridiques & Financiers
+
+- **vefa** (objet) :  
+  - **isVefa** (boolean) : Vente en état futur d’achèvement.  
+  - **deliveryDate** (date) : Date livraison prévue.  
+  - **contractSignedDate** (date) : Date signature contrat.  
+- **viager** (objet) :  
+  - **isViager** (boolean) : Vente en viager.  
+  - **rentAmount** (number) : Rente viagère.  
+  - **rentPeriodicity** (string) : Périodicité (mensuelle, trimestrielle).  
+  - **deathDate** (date) : Date décès (le cas échéant).
+
+### 9. Copropriété
+
+- **coOwnership** (objet) :  
+  - **numberOfUnits** (integer) : Nombre d’unités dans la copro.  
+  - **annualCharges** (number) : Charges annuelles (€).  
+  - **syndic** (objet) :  
+    - **name** (string) : Nom syndic.  
+    - **phone** (string) : Téléphone.  
+    - **email** (string) : Email.  
+  - **commonAreaDiagnostics** (objet) :  
+    - **structureStatus** (string) : État structure.  
+    - **waterLeakStatus** (string) : Problèmes fuites.  
+    - **lastInspectionDate** (date) : Date dernier contrôle.
+
+### 10. Diagnostics Techniques
+
+- **diagnostics** (objet) :  
+  - **energyPerformance** (string) : Diagnostic DPE (ex : A, B, C).  
+  - **asbestos** (boolean) : Présence amiante.  
+  - **lead** (boolean) : Présence plomb.  
+  - **floodRisk** (boolean) : Risque inondation.  
+  - **technicalReports** (array) : Liste de documents techniques.  
+- **technicalDocuments** (array) :  
+  - Chaque document a un **type** (string), **url** (string), **date** (date).
+
+### 11. Descriptions & Médias
+
+- **title** (string) : Titre court.  
+- **shortDescription** (string) : Description courte.  
+- **longDescription** (string) : Description longue détaillée.  
+- **keywords** (array of strings) : Mots-clés générés automatiquement par IA.  
+- **photos** (array of strings) : URLs des photos.  
+- **documents** (array) :  
+  - **type** (string) : Type de document (ex : plan, diagnostic).  
+  - **url** (string) : Lien vers document.
 
 ---
 
-## 📋 Composants & Champs
+## Utilisation
 
-### Champs principaux
-
-| Champ                   | Type       | Obligatoire | Description                                             |
-| ----------------------- | ---------- | ----------- | ------------------------------------------------------- |
-| `id`                    | UUID       | Oui         | Identifiant unique                                      |
-| `agencyId`              | string     | Oui         | Identifiant de l’agence (locataire)                     |
-| `transactionType`       | string     | Oui         | Modalité de transaction (voir ci‑dessus)                |
-| `type`                  | string     | Oui         | Catégorie de bien                                       |
-| `status`                | string     | Oui         | Statut de publication (ex. available, under_offer...)   |
-| `publication`           | object     | Non         | `{ channel, publishedAt, expiresAt, featured }`         |
-| `tags`                  | array      | Non         | Liste d’étiquettes libres (ex. “mandat exclusif”)       |
-| `offers`                | array      | Non         | Offres reçues sur le bien, avec conditions éventuelles  |
-| `price`                 | object     | Oui         | `{ amount, currency }`                                  |
-| `address`               | object     | Oui         | `{ street, postalCode, city, country, latitude, lng }`  |
-| `assignedCollaborator`  | object     | Oui         | `{ collaboratorId, name, phone, email }`                |
-
-### Sous‑objets selon type
-
-- **Maison** : `levels`, `heating`, `fireplace`, `pool`, `gardenArea`  
-- **Terrain** : `landDevelopment` (buildable, zoning, utilities)  
-- **Parking** : `parkingType`, `dimensions`, `accessibilityForDisabled`  
-- **Commercial** : `lease`, `intendedUse`  
-- **VEFA** : `vefa` (developer, expectedDelivery, paymentPlan, completionGuarantee)  
-- **Viager** : `viager` (usufructOwner, bareOwner, bouquet, rente)  
-
-### Champs utilitaires
-
-- **Copropriété** : `coOwnership`  
-- **Diagnostics** : `diagnostics`  
-- **Descriptions & médias** : `title`, `shortDescription`, `longDescription`, `photos`, `documents`  
-- **Métadonnées & statistiques** : `createdAt`, `updatedAt`, `statistics`  
+- Ce schéma valide et structure les données relatives aux biens immobiliers dans un CRM.  
+- Permet une gestion complète, incluant aspects juridiques et diagnostics techniques.  
+- Facilite l’intégration avec des systèmes tiers et outils d’intelligence artificielle.
 
 ---
 
-### 🔑 Keywords
+## Liens & Références
 
-Le champ `keywords` permet d’associer à chaque bien immobilier une série de mots-clés générés automatiquement par l’IA à partir de l’analyse audio ou textuelle de l’annonce. Ces mots-clés servent à enrichir le référencement, faciliter la recherche et mettre en avant des caractéristiques spécifiques.
+- Référentiel principal : `property-crm.json`  
+- [Dépôt GitHub des workflows CRM](https://github.com/Creat789/n8n-workflows-crm/tree/main/workflows)
 
-**Exemples de mots-clés :**
+---
 
-```json
-{
-  "keywords": [
-    "vue mer",
-    "terrasse",
-    "accès handicapé",
-    "proche école",
-    "calme",
-    "investissement locatif"
-  ]
-}
-```
-## 📌 Exemple d’Objet Property
+## Licence
 
-```json
-{
-  "id": "4a7d1e4b-9f34-4c1b-80d8-5a2a7b0e9c3f",
-  "agencyId": "agency_123",
-  "transactionType": "sale",
-  "type": "apartment",
-  "status": "under_offer",
-  "publication": {
-    "channel": "SeLoger",
-    "publishedAt": "2025-06-01T10:30:00Z",
-    "expiresAt": "2025-08-01T00:00:00Z",
-    "featured": true
-  },
-  "tags": ["mandat exclusif", "coup de cœur"],
-  "offers": [
-    {
-      "amount": 340000,
-      "buyer": "buyer_789",
-      "submittedAt": "2025-06-15T12:00:00Z",
-      "status": "pending",
-      "conditions": ["sous réserve de financement"]
-    }
-  ],
-  "price": { "amount": 350000, "currency": "EUR" },
-  "address": {
-    "street": "12 Rue de la Liberté",
-    "postalCode": "75011",
-    "city": "Paris",
-    "country": "France",
-    "latitude": 48.8566,
-    "longitude": 2.3522
-  },
-  "assignedCollaborator": {
-    "collaboratorId": "col_456",
-    "name": "Alice Martin",
-    "phone": "+33 6 12 34 56 78",
-    "email": "alice@agency.com"
-  },
-  "bedrooms": 2,
-  "bathrooms": 1,
-  "floor": 3,
-  "elevator": true,
-  "coOwnership": {
-    "totalUnits": 20,
-    "annualFees": 2400,
-    "propertyManager": {
-      "name": "Syndic Pro",
-      "contact": "contact@syndicpro.com"
-    }
-  },
-  "diagnostics": {
-    "energyPerformance": { "rating": "C", "consumption": 120 },
-    "greenhouseEmissions": { "rating": "D", "emissions": 28 },
-    "asbestos": "none",
-    "lead": "none",
-    "floodRisk": "low"
-  },
-  "title": "Charming 2‑bedroom in Bastille",
-  "shortDescription": "Bright apartment with elevator, 55 m², 3rd floor",
-  "longDescription": "Located in the heart of the 11th arrondissement... (more details)",
-  "photos": [
-    "https://cdn.agency.com/photos/apt123-1.jpg",
-    "https://cdn.agency.com/photos/apt123-2.jpg"
-  ],
-  "documents": [
-    { "type": "floor plan", "url": "https://cdn.agency.com/docs/apt123-plan.pdf" }
-  ],
-  "createdAt": "2025-05-20T09:00:00Z",
-  "updatedAt": "2025-06-01T10:30:00Z",
-  "statistics": { "views": 150, "inquiries": 7 },
-  "keywords": [
-    "vue dégagée",
-    "ascenseur",
-    "proche transports",
-    "lumineux"
-  ]
-}
+MIT License
 
+---
+
+*Document généré automatiquement pour décrire la structure JSON complète des biens immobiliers dans le CRM.*
