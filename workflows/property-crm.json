@@ -202,28 +202,6 @@
           }
         }
       },
-      "diagnostics": {
-        "type": "object",
-        "properties": {
-          "energyPerformance": {
-            "type": "object",
-            "properties": {
-              "rating": { "type": "string" },
-              "consumption": { "type": "number", "format": "float" }
-            }
-          },
-          "greenhouseEmissions": {
-            "type": "object",
-            "properties": {
-              "rating": { "type": "string" },
-              "emissions": { "type": "number", "format": "float" }
-            }
-          },
-          "asbestos": { "type": "string" },
-          "lead": { "type": "string" },
-          "floodRisk": { "type": "string" }
-        }
-      },
       "title": { "type": "string" },
       "shortDescription": { "type": "string" },
       "longDescription": { "type": "string" },
@@ -234,20 +212,6 @@
           "type": "string"
         },
         "example": ["vue mer", "proche écoles", "accès handicapé"]
-      },
-      "photos": {
-        "type": "array",
-        "items": { "type": "string", "format": "uri" }
-      },
-      "documents": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "type": { "type": "string" },
-            "url": { "type": "string", "format": "uri" }
-          }
-        }
       },
       "createdAt": { "type": "string", "format": "date-time" },
       "updatedAt": { "type": "string", "format": "date-time" },
